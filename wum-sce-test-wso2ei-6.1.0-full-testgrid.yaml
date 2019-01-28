@@ -6,20 +6,22 @@ infrastructureConfig:
   iacProvider: CLOUDFORMATION
   infrastructureProvider: AWS
   containerOrchestrationEngine: None
+  parameters:
+    - JDK : ORACLE_JDK8
   includes:
      - Ubuntu-18.04
      - MySQL-5.7
-     - MySQL-5.6
      - OracleJDK-8
   provisioners:
     - name: single-node-deployment
-      remoteRepository: "https://github.com/wso2/aws-ei.git"
+      remoteRepository: "git@github.com:wso2-support/aws-ei.git"
+      remoteBranch: "6.1.0"
       description: Provision Infra for running scenario tests
       scripts:
         - name: 'prod-wso2-ei-scenario-deployment'
           description: ''
           type: CLOUDFORMATION
-          file: integrator/integrator-ha.yaml
+          file: integrator/Minimum-HA/integrator-ha.yaml
           inputParameters:
             parseInfrastructureScript: false
             KeyPairName: "deployment-prod"
@@ -36,4 +38,8 @@ scenarioConfigs:
     name: "ei-scenarios"
     description: "ei-scenarios"
     file: product-scenarios/test.sh
+    inputParameters:
+      ProductVersion: "EI-6.1.0"
+
+
 
